@@ -19,7 +19,7 @@ const getUsers = async (req, res) => {
 const getUserById = async (req, res) => {
     const id = req.params.id;
     const response = await pool.query('SELECT * FROM users WHERE id = $1', [id])
-    res.json(response.rows);
+    res.json(response.rows[0]);
 }
 
 //FUNCION PARA CREAR USUARIOS EN LA BASE DE DATOS
