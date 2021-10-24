@@ -1,13 +1,5 @@
-const { Pool } = require('pg');
-
 //PARA CONECTAR A LA BASE DE DATOS DE POSTGRES
-const pool = new Pool({
-    host:'34.125.236.207',
-    user:'postgres',
-    password:'postgres',
-    database:'bbva',
-    port:'5432'
-})
+const pool  = require('../conection/conectionPg');
 
 //FUNCION PARA OBTENER LOS USUARIOS DE LA BASE DE DATOS
 const getUsers = async (req, res) => {
@@ -21,6 +13,26 @@ const getUserById = async (req, res) => {
     const response = await pool.query('SELECT * FROM users WHERE id = $1', [id])
     res.json(response.rows[0]);
 }
+
+//FUNCION PARA LOGUEARSE 
+const getUserLogin = (req, res) => {
+    const user = req.body.phone;
+    const pass = req.body.password;
+    if( user && pass){
+        const response = pool.query('SELECT * FROM users WHERE phone = $1 AND password = $2', [user, pass], async (error, results) => {
+            console.log(results,"results")
+            if(results.rowCount === 0){
+                res.status(404).json({'error':'Usuario o password incorrectas'});
+            }else{
+                res.status(200).json({'message': 'Login correcto'});
+            }
+        })
+    }
+    else{
+        res.status(404).json({'error': 'Debe ingresar usuario y password'});
+    }
+
+};
 
 //FUNCION PARA CREAR USUARIOS EN LA BASE DE DATOS
 const createUser = async (req, res) => {
@@ -62,5 +74,6 @@ module.exports = {
     getUserById,
     createUser,
     updateUser,
-    deleteUser
+    deleteUser,
+    getUserLogin
 }

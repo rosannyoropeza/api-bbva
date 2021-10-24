@@ -1,6 +1,6 @@
 const { Router } = require('express');
 const router = Router();
-const { getUsers, createUser, getUserById, deleteUser, updateUser } = require('../controllers/controllersUsers');
+const { getUsers, createUser, getUserById, deleteUser, updateUser, getUserLogin } = require('../controllers/controllersUsers');
 const { getProductosCuentas, createProductosCuentas } = require('../controllers/controllersProductoCuenta');
 const { getPuntos } = require('../controllers/controllersPuntos');
 const { getTarjetas } = require('../controllers/controllersTarjetas');
@@ -30,6 +30,7 @@ router.get('/gastos/:id', getOtrosGastos);
 router.get('/users/:id', getUserById);
 
 //METODO PARA CREAR UN USUARIO DATOS SEGUN LA RUTA SEGUN LA RUTA
+router.post('/auth',getUserLogin);
 router.post('/users', createUser);
 router.post('/productos',createProductosCuentas);
 
