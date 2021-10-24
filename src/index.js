@@ -12,5 +12,5 @@ app.use(require('./routes/routes'));
 
 
 //SERVER
-app.listen(3000);
-console.log('Server on port 3000');
+app.listen(80);
+console.log('Server on port 80');
